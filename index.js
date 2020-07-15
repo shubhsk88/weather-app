@@ -3,7 +3,7 @@ const APP_KEY = '26c29794be72dce9e5327c432c67e536';
 async function getWeather(city = 'London') {
   try {
     const data = await fetch(
-      `http://api.weatherstack.com/current?access_key=${APP_KEY}&query=${city}`,
+      `https://api.weatherstack.com/current?access_key=${APP_KEY}&query=${city}`
     );
     if (data.status === 200) {
       const weather = await data.json();
