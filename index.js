@@ -31,7 +31,9 @@ const showTemperature = document.querySelector('.temperature');
 const showHumidity = document.querySelector('#humidity');
 const showPressure = document.querySelector('#pressure');
 const search = document.querySelector('.searcher');
-
+const button = document.querySelector('#label-button');
+const check = document.querySelector('input[name="toggle"]');
+let temperatureCheck;
 async function showWeather(city) {
   const response = await getWeather(city);
 
@@ -44,6 +46,7 @@ async function showWeather(city) {
     const pressure = response.current.pressure;
     const humidity = response.current.humidity;
     const localtime = response.location.localtime.split(' ');
+    temperatureCheck = temperature;
     const img = document.createElement('img');
     img.src = icon;
     img.classList.add('rounded-full');
@@ -53,19 +56,35 @@ async function showWeather(city) {
 
     showCountry.textContent = country;
     showStatus.textContent = status;
-    showTemperature.textContent = temperature;
+    showTemperature.textContent = `${temperature}ºC`;
     showPressure.textContent = pressure;
     showHumidity.textContent = humidity;
     showTime.textContent = localtime[1];
   }
 }
+
+function converter(celsius) {
+  return (9 / 5) * celsius + 32;
+}
 search.addEventListener('click', async (event) => {
   const textInput = document.querySelector('.text-input').value;
-  event.preventDefault();
 
   if (textInput !== '') {
+    event.preventDefault();
     await showWeather(textInput);
   }
 });
+button.addEventListener('click', () => {
+  const name = document.querySelector('input[name="toggle"]');
+  const last = name.parentElement;
 
+  if (last.classList[7] === 'bg-gray-400') {
+    const fahreneit = converter(temperatureCheck);
+    showTemperature.textContent = '';
+    showTemperature.textContent = `${fahreneit} ºF`;
+  } else {
+    showTemperature.textContent = '';
+    showTemperature.textContent = `${temperatureCheck}ºC`;
+  }
+});
 showWeather();
