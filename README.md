@@ -2,8 +2,7 @@
 
 > A simple weather forecast application in which user can get the details of the city by searching on it
 
-![weatherapp](https://user-images.githubusercontent.com/15898299/87446090-3b2e1780-c5cf-11ea-8341-8699024aaffa.png)
-
+![weatherapp](weather.png)
 
 ## Built With
 
@@ -13,11 +12,11 @@
 
 ## Live Demo
 
-[To-do List](https://raw.githack.com/shubhsk88/To-do-app/tree/feaure-to-do/index.html)
+[Weather-App](https://rawcdn.githack.com/shubhsk88/weather-app/938e3f39a0b8b156a080c251480422e93ad46b29/index.html)
 
 ## Setup
 
-- Clone this repository with: `git clone https://github.com/shubhsk88/weather-app.git `
+- Clone this repository with: `git clone https://github.com/shubhsk88/weather-app.git`
 - Navigate to the project folder (weather-app) and open the `index.html` with the browser.
 
 ## 👤 Authors
@@ -27,8 +26,6 @@
 - Github: [@shubhsk88](https://github.com/shubhsk88)
 - Twitter: [@shubhski](twitter.com/shubski)
 - Linkedin: [linkedin](https://www.linkedin.com/in/shubhski/)
-
-
 
 ## 🤝 Contributing
 
