@@ -1,14 +1,14 @@
-const APP_KEY = '26c29794be72dce9e5327c432c67e536';
+const APP_KEY = 'ffa2b0f503f54446b0d77a7cc99187f0';
 /* eslint-disable consistent-return,prefer-destructuring */
-async function getWeather(city = 'London') {
+async function getWeather(city = 'Delhi') {
   try {
     const data = await fetch(
-      `http://api.weatherstack.com/current?access_key=${APP_KEY}&query=${city}`
+      `https://api.weatherbit.io/v2.0/current?city=${city}&key=${APP_KEY}`,
     );
     if (data.status === 200) {
       const weather = await data.json();
 
-      return weather;
+      return weather.data[0];
     }
   } catch (err) {
     return 'Error';
@@ -17,7 +17,6 @@ async function getWeather(city = 'London') {
 
 const showCity = document.querySelector('.city');
 const showCountry = document.querySelector('.country');
-const showTime = document.querySelector('.time');
 const showStatus = document.querySelector('.status');
 const showIcon = document.querySelector('.icon');
 const showTemperature = document.querySelector('.temperature');
@@ -31,14 +30,15 @@ async function showWeather(city) {
   const response = await getWeather(city);
 
   if (response) {
-    const city = response.location.name;
-    const { country } = response.location;
-    const status = response.current.weather_descriptions[0];
-    const icon = response.current.weather_icons[0];
-    const { temperature } = response.current;
-    const { pressure } = response.current;
-    const { humidity } = response.current;
-    const localtime = response.location.localtime.split(' ');
+    const city = response.city_name;
+    const country = response.country_code;
+    const status = response.weather.description;
+    const icon = ` https://www.weatherbit.io/static/img/icons/${response.weather.icon}.png`;
+    const temperature = Math.floor(response.app_temp);
+
+    const pressure = Math.floor(response.pres);
+    const humidity = response.rh;
+
     temperatureCheck = temperature;
     const img = document.createElement('img');
     img.src = icon;
@@ -52,7 +52,6 @@ async function showWeather(city) {
     showTemperature.textContent = `${temperature}ºC`;
     showPressure.textContent = pressure;
     showHumidity.textContent = humidity;
-    showTime.textContent = localtime[1];
   }
 }
 
