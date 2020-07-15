@@ -12,7 +12,7 @@
 
 ## Live Demo
 
-[Weather-App](https://rawcdn.githack.com/shubhsk88/weather-app/938e3f39a0b8b156a080c251480422e93ad46b29/index.html)
+[Weather-App](https://zealous-raman-9104b9.netlify.app/)
 
 ## Setup
 
