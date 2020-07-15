@@ -1,7 +1,9 @@
+const APP_KEY = '26c29794be72dce9e5327c432c67e536';
+/* eslint-disable consistent-return,prefer-destructuring */
 async function getWeather(city = 'London') {
   try {
     const data = await fetch(
-      `http://api.weatherstack.com/current?access_key=${APP_KEY}&query=${city}`
+      `http://api.weatherstack.com/current?access_key=${APP_KEY}&query=${city}`,
     );
     if (data.status === 200) {
       const weather = await data.json();
@@ -9,19 +11,10 @@ async function getWeather(city = 'London') {
       return weather;
     }
   } catch (err) {
-    console.log(err);
+    return 'Error';
   }
 }
 
-function msToTime(duration) {
-  let minutes = Math.floor((duration / (1000 * 60)) % 60),
-    hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
-  let timezone;
-  hours = hours < 10 ? '0' + hours : hours;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  timezone = hours > 12 ? 'P.M.' : 'A.M.';
-  return hours + ':' + minutes + ' ' + timezone;
-}
 const showCity = document.querySelector('.city');
 const showCountry = document.querySelector('.country');
 const showTime = document.querySelector('.time');
@@ -32,19 +25,19 @@ const showHumidity = document.querySelector('#humidity');
 const showPressure = document.querySelector('#pressure');
 const search = document.querySelector('.searcher');
 const button = document.querySelector('#label-button');
-const check = document.querySelector('input[name="toggle"]');
+
 let temperatureCheck;
 async function showWeather(city) {
   const response = await getWeather(city);
 
   if (response) {
     const city = response.location.name;
-    const country = response.location.country;
+    const { country } = response.location;
     const status = response.current.weather_descriptions[0];
     const icon = response.current.weather_icons[0];
-    const temperature = response.current.temperature;
-    const pressure = response.current.pressure;
-    const humidity = response.current.humidity;
+    const { temperature } = response.current;
+    const { pressure } = response.current;
+    const { humidity } = response.current;
     const localtime = response.location.localtime.split(' ');
     temperatureCheck = temperature;
     const img = document.createElement('img');
