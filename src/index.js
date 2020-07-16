@@ -1,19 +1,4 @@
-const APP_KEY = 'ffa2b0f503f54446b0d77a7cc99187f0';
-/* eslint-disable consistent-return,prefer-destructuring */
-async function getWeather(city = 'Delhi') {
-  try {
-    const data = await fetch(
-      `https://api.weatherbit.io/v2.0/current?city=${city}&key=${APP_KEY}`,
-    );
-    if (data.status === 200) {
-      const weather = await data.json();
-
-      return weather.data[0];
-    }
-  } catch (err) {
-    return 'Error';
-  }
-}
+import getWeather from './api';
 
 const showCity = document.querySelector('.city');
 const showCountry = document.querySelector('.country');
@@ -24,10 +9,10 @@ const showHumidity = document.querySelector('#humidity');
 const showPressure = document.querySelector('#pressure');
 const search = document.querySelector('.searcher');
 const button = document.querySelector('#label-button');
+const textInput = document.querySelector('.text-input');
 
-let temperatureCheck;
-async function showWeather(city) {
-  const response = await getWeather(city);
+async function showWeather(city = 'Delhi', unit = 'C') {
+  const response = await getWeather(city, unit);
 
   if (response) {
     const city = response.city_name;
@@ -39,7 +24,6 @@ async function showWeather(city) {
     const pressure = Math.floor(response.pres);
     const humidity = response.rh;
 
-    temperatureCheck = temperature;
     const img = document.createElement('img');
     img.src = icon;
     img.classList.add('rounded-full');
@@ -49,34 +33,28 @@ async function showWeather(city) {
 
     showCountry.textContent = country;
     showStatus.textContent = status;
-    showTemperature.textContent = `${temperature}ºC`;
+    showTemperature.textContent = `${temperature}º${unit === 'F' ? 'F' : 'C'}`;
     showPressure.textContent = pressure;
     showHumidity.textContent = humidity;
   }
 }
 
-function converter(celsius) {
-  return (9 / 5) * celsius + 32;
-}
 search.addEventListener('click', async (event) => {
-  const textInput = document.querySelector('.text-input').value;
-
-  if (textInput !== '') {
+  if (textInput.value !== '') {
     event.preventDefault();
-    await showWeather(textInput);
+    await showWeather(textInput.value);
   }
 });
-button.addEventListener('click', () => {
+button.addEventListener('click', async () => {
   const name = document.querySelector('input[name="toggle"]');
   const last = name.parentElement;
 
-  if (last.classList[7] === 'bg-gray-400') {
-    const fahreneit = converter(temperatureCheck);
-    showTemperature.textContent = '';
-    showTemperature.textContent = `${fahreneit} ºF`;
-  } else {
-    showTemperature.textContent = '';
-    showTemperature.textContent = `${temperatureCheck}ºC`;
-  }
+  if (last.classList[7] !== 'bg-gray-400') {
+    if (textInput.value !== '') {
+      await showWeather(textInput.value, 'C');
+    } else await showWeather('Delhi', 'C');
+  } else if (textInput.value !== '') {
+    await showWeather(textInput.value, 'F');
+  } else await showWeather('Delhi', 'F');
 });
 showWeather();
